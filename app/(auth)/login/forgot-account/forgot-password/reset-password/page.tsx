@@ -2,28 +2,28 @@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useSearchParams } from "next/navigation";
-import { forgetPassword } from "@/lib/auth-client";
+import { resetPassword } from "@/lib/auth-client";
 import { useState } from "react";
-
+import { useRouter } from "next/navigation";
 export default function Page() {
+  const router = useRouter();
   const params = useSearchParams();
-  const emailParams = params.get("email") || "";
-  const [email, setEmail] = useState(emailParams);
+  const token = params.get("token") || undefined;
   const [message, setMessage] = useState<string>("");
+  const [password, setPassword] = useState("");
 
-  console.log(emailParams);
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const { error } = await forgetPassword({
-      email,
-      redirectTo: "/login/forgot-account/forgot-password/reset-password",
+    const { error } = await resetPassword({
+      token,
+      newPassword: password,
     });
     if (error) {
-      setMessage("Something went wrong");
+      setMessage("Failed to reset password");
     } else {
-      setMessage("Check your email ");
+      setMessage("Success you can login ");
+      router.push("/login");
     }
-    setEmail("");
   };
   return (
     <div>
@@ -31,16 +31,16 @@ export default function Page() {
         onSubmit={handleSubmit}
         className="p-6 max-w-md mx-auto space-y-4 container"
       >
-        <h1 className="text-xl font-semibold">Find Your Account</h1>
+        <h1 className="text-xl font-semibold">Reset your password</h1>
         <Input
-          onChange={(e) => setEmail(e.target.value)}
-          value={email}
-          placeholder="Enter your email again"
-          name="email"
-          type="email"
+          onChange={(e) => setPassword(e.target.value)}
+          value={password}
+          placeholder="New Password"
+          name="pwd"
+          type="password"
           className="w-full p-2 border rounded"
         />
-        <Button type="submit">Find Account</Button>
+        <Button type="submit">Reset Password</Button>
         {message && <p className="text-black font-light">{message}</p>}
       </form>
     </div>

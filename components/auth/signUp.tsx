@@ -56,6 +56,10 @@ export function SignUpForm() {
               </svg>
               <span>Google</span>
             </SocialSignIn>
+           
+              <Link href={"sign-up/magic-link"}><Button className="w-full bg-purple-300">Magic Link</Button></Link>
+              
+            
           </div>
 
           <hr className="my-4 border-dashed" />

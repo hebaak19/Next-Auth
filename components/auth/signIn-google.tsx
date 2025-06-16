@@ -15,6 +15,7 @@ export default function SocialSignIn({
         await signIn.social({
           provider,
           callbackURL: "/dashboard",
+          
         });
       }}
       type="button"
