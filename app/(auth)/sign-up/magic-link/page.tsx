@@ -13,7 +13,9 @@ export default function Page() {
       email:email,
       callbackURL: "/dashboard",
     });
-    console.log(data)
+    if(data?.status){
+      setMessage("Check your email")
+    }
     if (error) {
       setMessage("Can't sign in ");
       console.log(error);
@@ -36,7 +38,7 @@ export default function Page() {
           className="w-full p-2 border rounded"
         />
         <Button type="submit">Submit</Button>
-        {message && <p className="text-red-500">{message}</p>}
+        {message && <p className="text-pink-800">{message}</p>}
       </form>
     </div>
   );
